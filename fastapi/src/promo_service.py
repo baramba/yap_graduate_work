@@ -1,7 +1,8 @@
 from datetime import datetime
 from functools import lru_cache
-from uuid import UUID
+from uuid import UUID, uuid4
 
+import pytz
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
@@ -61,20 +62,45 @@ class PromoService:
             raise PromoNotFoundException(code)
         if promo.activates_left <= 0:
             raise NoAvailableActivationsException(code)
-        if promo.start_at > datetime.now():  # todo: fix (time zone)
+        if promo.start_at > datetime.now(pytz.UTC):
             raise PromoIsNotStartedException(code)
-        if promo.expired <= datetime.now():  # todo: fix (time zone)
+        if promo.expired <= datetime.now(pytz.UTC):
             raise PromoIsExpiredException(code)
 
-        # todo: меняем promo.activates_left
-        # todo: добавляем запись в history
-
+        new_activates_left = promo.activates_left - 1
+        self._db.query(entities.Promo).filter(entities.Promo.code == code).update(
+            {"activates_left": new_activates_left}
+        )
+        history_record = entities.History(
+            id=uuid4(),
+            applied_user_id=promo.user_id,
+            discount_amount=promo.discount_amount,
+            billing_info="активация промокода",
+            promocode_id=promo.id,
+        )
+        self._db.add(history_record)
+        self._db.commit()
 
 
     async def deactivate(self, code: str) -> None:
-        pass
-        # todo: меняем promo.activates_left
-        # todo: добавляем запись в history
+        promo = self._db.query(entities.Promo).filter(entities.Promo.code == code).first()
+        if promo is None:
+            raise PromoNotFoundException(code)
+
+        if promo.activates_left < promo.activates_possible:
+            new_activates_left = promo.activates_left + 1
+            self._db.query(entities.Promo).filter(entities.Promo.code == code).update(
+                {"activates_left": new_activates_left}
+            )
+        history_record = entities.History(
+            id=uuid4(),
+            applied_user_id=promo.user_id,
+            discount_amount=promo.discount_amount,
+            billing_info="деактивация промокода",
+            promocode_id=promo.id,
+        )
+        self._db.add(history_record)
+        self._db.commit()
 
 
 @lru_cache()

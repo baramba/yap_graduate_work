@@ -1,18 +1,22 @@
 class PromoNotFoundException(Exception):
     def __init__(self, code: str):
-        super().__init__(f"There is no promo with code = `{code}`.")
+        self.message = f"There is no promo with code = `{code}`."
+        super().__init__(self.message)
 
 
 class PromoIsNotStartedException(Exception):
     def __init__(self, code: str):
-        super().__init__(f"Promo with code = `{code}` is not started.")
+        self.message = f"Promo with code = `{code}` is not started."
+        super().__init__(self.message)
 
 
 class PromoIsExpiredException(Exception):
     def __init__(self, code: str):
-        super().__init__(f"Promo with code = `{code}` is expired.")
+        self.message = f"Promo with code = `{code}` is expired."
+        super().__init__(self.message)
 
 
 class NoAvailableActivationsException(Exception):
     def __init__(self, code: str):
-        super().__init__(f"Promo with code = `{code}` has no available activations.")
+        self.message = f"Promo with code = `{code}` has no available activations."
+        super().__init__(self.message)
