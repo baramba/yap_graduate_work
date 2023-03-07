@@ -17,8 +17,9 @@ class BaseOrjsonModel(BaseModel):
 
 
 class DiscountType(str, Enum):
-    ABSOLUTE = "ABSOLUTE"
-    PERCENT = "PERCENT"
+    PRICE_FIX = "PRICE_FIX"
+    DISCOUNT_PERCENT = "DISCOUNT_PERCENT"
+    DISCOUNT_FIX = "DISCOUNT_FIX"
 
 
 class Promo(BaseOrjsonModel):
@@ -33,8 +34,21 @@ class Promo(BaseOrjsonModel):
     left_activations_count: int
     discount_type: DiscountType
     discount_amount: float
+    service_ids: list[UUID]
+
+
+class PromoInfo(BaseOrjsonModel):
+    discount_type: DiscountType
+    discount_amount: float
 
 
 class ActivationResult(BaseOrjsonModel):
     result: bool
-    message: str | None = None
+    discount_type: DiscountType | None
+    discount_amount: float | None
+    error_message: str | None = None
+
+
+class DeactivationResult(BaseOrjsonModel):
+    result: bool
+    error_message: str | None = None

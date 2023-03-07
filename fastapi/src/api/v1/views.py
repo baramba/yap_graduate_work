@@ -4,8 +4,9 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 
 from exceptions import PromoNotFoundException, PromoIsNotStartedException, PromoIsExpiredException, \
-    NoAvailableActivationsException
-from models import Promo, ActivationResult
+    NoAvailableActivationsException, PromoIsNotActiveException, PromoIsNotConnectedWithService, \
+    PromoIsNotConnectedWithUser
+from models import Promo, ActivationResult, DeactivationResult
 from promo_service import PromoService, get_promo_service
 from tools.text_constants import PROMO_IS_NOT_FOUND_MESSAGE
 
@@ -39,23 +40,38 @@ async def get_by_user_id(
     return await promo_service.get_by_user_id(user_id)
 
 
-@router.post("/promo/code/{code}/activate", response_model=ActivationResult, description="Активировать промокод")
+@router.post("/promo/activate", response_model=ActivationResult, description="Активировать промокод")
 async def activate(
     code: str,
+    user_id: UUID,
+    service_id: UUID,
     promo_service: PromoService = Depends(get_promo_service),
 ) -> ActivationResult:
     try:
-        await promo_service.activate(code)
-        return ActivationResult(result=True)
+        promo_info = await promo_service.activate(code, user_id, service_id)
+        return ActivationResult(
+            result=True, discount_type=promo_info.discount_type, discount_amount=promo_info.discount_amount
+        )
     except (
-        PromoNotFoundException, PromoIsNotStartedException, PromoIsExpiredException, NoAvailableActivationsException
+        PromoNotFoundException,
+        PromoIsNotStartedException,
+        PromoIsExpiredException,
+        NoAvailableActivationsException,
+        PromoIsNotActiveException,
+        PromoIsNotConnectedWithService,
+        PromoIsNotConnectedWithUser,
     ) as e:
-        return ActivationResult(result=False, message=e.message)
+        return ActivationResult(result=False, error_message=e.message)
 
 
-@router.post("/promo/code/{code}/deactivate", description="Деактивировать промокод")
+@router.post("/promo/deactivate", response_model=DeactivationResult, description="Деактивировать промокод")
 async def deactivate(
     code: str,
+    user_id: UUID,
     promo_service: PromoService = Depends(get_promo_service),
-) -> None:
-    await promo_service.deactivate(code)
+) -> DeactivationResult:
+    try:
+        await promo_service.deactivate(code, user_id)
+        return DeactivationResult(result=True)
+    except PromoIsNotConnectedWithUser as e:
+        return DeactivationResult(result=False, error_message=e.message)
