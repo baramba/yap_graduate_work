@@ -29,8 +29,6 @@ services:
        poetry run python -m gunicorn panel.wsgi:application"
     expose:
       - "8000"
-    ports:
-      - 8000:8000
     depends_on:
       - db
   db:
