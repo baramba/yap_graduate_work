@@ -15,6 +15,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL("CREATE SCHEMA IF NOT EXISTS content;"),
         migrations.CreateModel(
             name='Product',
             fields=[
