@@ -141,5 +141,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissions'
     ]
 }
-
+LOCALE_PATHS = ['promo/locale']
 promo_code_length = 20

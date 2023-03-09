@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import PromoCode, Product, History
+from .models import PromoCode, Product, History, BulkPromoCreate
 
 
 # action section
+
 
 @admin.action(description='Активировать выбранные коды')
 def bulk_activate(modeladmin, request, queryset):
@@ -35,14 +36,23 @@ def export_as_csv(modeladmin, request, queryset):
 
 # inlines section
 
+
 class ProductsInLine(admin.TabularInline):
     model = PromoCode.products.through
+    fields = ('product', 'promo_code')
     extra = 1
 
 
 class HistoryInLine(admin.TabularInline):
     model = History
+    can_delete = False
     extra = 0
+
+
+class ProductsBulkInLine(admin.TabularInline):
+    model = BulkPromoCreate.products.through
+    fields = ('product', 'bulk')
+    extra = 1
 
 
 # register section
@@ -101,3 +111,25 @@ class HistoryAdmin(admin.ModelAdmin):
     @admin.display(description='Код')
     def get_code(self, obj):
         return obj.promocode.code
+
+
+@admin.register(BulkPromoCreate)
+class BulkCreationAdmin(admin.ModelAdmin):
+    list_display = ('created', 'creation_done', 'url_download', 'created_by')
+    list_filter = ('created', 'created_by', 'creation_done')
+    save_as = True
+    save_as_continue = False
+    fieldsets = (
+        (None, {
+            'fields': (
+                'title', 'description', 'discount_type', 'discount_amount')
+        }),
+        ('Ограничения', {
+            'fields': ('start_at', 'expired', 'minimal_amount')
+        }),
+    )
+    inlines = (ProductsBulkInLine,)
+
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        # super().save_model(request, obj, form, change)
