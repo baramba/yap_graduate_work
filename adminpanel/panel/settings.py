@@ -135,15 +135,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissions"]
-}
-<<<<<<< HEAD
 LOCALE_PATHS = ['promo/locale']
-promo_code_length = 20
-=======
 
 promo_code_length = os.environ.get("PROMO_CODE_LENGTH", 20)
->>>>>>> fb8758fa65166591682167885d1b43e332468a71

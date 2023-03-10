@@ -1,7 +1,7 @@
 import random
 import string
 import uuid
-from django.utils.translation import gettext_lazy as _
+
 import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -10,6 +10,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
@@ -142,6 +143,7 @@ class BulkPromoCreate(IdTimeMixin):
         ordering = ('-created',)
         verbose_name = _('promo code generator')
         verbose_name_plural = _('promo codes generator')
+
 
 @receiver(post_save, sender=BulkPromoCreate, dispatch_uid="send_bulk_request")
 def update_stock(created, **kwargs):
