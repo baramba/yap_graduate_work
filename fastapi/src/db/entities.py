@@ -34,6 +34,8 @@ class Product(BaseTable):
     modified = Column("modified", TIMESTAMP, default=func.now(), nullable=False)
 
     name = Column("name", String, nullable=False)
+    description = Column("description", String, nullable=True)
+    price = Column("price", Float, default=0, nullable=False)
 
 
 class Promo(BaseTable):
@@ -55,6 +57,7 @@ class Promo(BaseTable):
     discount_amount = Column("discount_amount", Float, default=0, nullable=False)
     minimal_amount = Column("minimal_amount", Float, default=0, nullable=False)
     is_active = Column("is_active", Boolean, nullable=False, default=0)
+    created_by_id = Column("created_by_id", Integer, nullable=False, default=0)
 
     products = relationship(
         "Product", secondary=f"{SCHEMA_NAME}.product_promo", backref="promos"
