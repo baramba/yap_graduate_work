@@ -128,7 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-<<<<<<< HEAD
 .vscode/
 .income_data/
 income_data/
@@ -136,10 +135,8 @@ media/
 .idea/
 .DS_Store/
 requirements_dev.txt
-=======
-.python-version
 
 # vscode
 .vscode/settings.json
 .vscode/launch.json
->>>>>>> fb8758fa65166591682167885d1b43e332468a71
+
