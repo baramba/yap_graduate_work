@@ -7,4 +7,4 @@
 Удачи!
 
 
-[Описание API сервиса лояльности](https://petstore.swagger.io/?url=https://path/to/file.yaml)
+[Описание API сервиса лояльности](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/baramba/yap_graduate_work/main/docs/openapi.yaml)
