@@ -9,7 +9,7 @@ logging_config.dictConfig(LOGGING)
 
 
 class PostgresDsn(BaseSettings):
-    dbname: str = Field('movies_database', env='POSTGRES_DB')
+    dbname: str = Field('postgres', env='POSTGRES_DB')
     user: str = Field('app', env='POSTGRES_USER')
     password: str = Field('123qwe', env='POSTGRES_PASSWORD')
     host: str = Field('127.0.0.1', env='POSTGRES_SERVER')
