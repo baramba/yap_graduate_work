@@ -5,8 +5,7 @@ import uuid
 import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import IntegrityError
-from django.db import models
+from django.db import IntegrityError, models
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -90,10 +89,10 @@ class PromoCode(IdTimeMixin):
         verbose_name_plural = _('promos')
 
     def __str__(self):
-        return f'{self.title}, {self.description[:20]}, c:{self.start_at}, до:{self.expired}'
+        return f'"{self.title}", "{self.description[:20]}", c:{self.start_at}, до:{self.expired}'
 
     def save(self, *args, **kwargs):
-        if self.activates_left == None:
+        if self.activates_left is None:
             self.activates_left = self.activates_possible
 
         if self.code != '':
@@ -121,6 +120,9 @@ class History(IdTimeMixin):
         ordering = ('-created',)
         verbose_name = _('activation log')
         verbose_name_plural = _('activations log')
+
+    def __str__(self):
+        return f'"{self.promocode.code}" activated by "{self.applied_user_id}"'
 
 
 class BulkPromoCreate(IdTimeMixin):

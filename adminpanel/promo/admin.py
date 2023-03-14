@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import PromoCode, Product, History, BulkPromoCreate
-
+from .models import BulkPromoCreate, History, Product, PromoCode
 
 # action section
 
@@ -19,6 +18,7 @@ def bulk_disactivate(modeladmin, request, queryset):
 @admin.action(description='Экспортировать выбранные в csv')
 def export_as_csv(modeladmin, request, queryset):
     import csv
+
     from django.http import HttpResponse
     meta = modeladmin.model._meta
     field_names = [field.name for field in meta.fields]
@@ -29,7 +29,7 @@ def export_as_csv(modeladmin, request, queryset):
 
     writer.writerow(field_names)
     for obj in queryset:
-        row = writer.writerow([getattr(obj, field) for field in field_names])
+        writer.writerow([getattr(obj, field) for field in field_names])
 
     return response
 
@@ -64,7 +64,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
-    inlines = (ProductsInLine, HistoryInLine)
+    inlines = (ProductsInLine,)
     list_display = ('code', 'title', 'description', 'created', 'user_id', 'display_products', 'is_active')
     list_editable = ('is_active',)
     list_filter = ('title', 'created_by', 'is_active', 'start_at', 'expired')
