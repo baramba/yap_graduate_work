@@ -1,0 +1,52 @@
+version: "3.9"
+name: yap_ls
+services:
+  db:
+    container_name: db
+    hostname: db
+    image: postgres:15.1
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+
+  adminpanel:
+    container_name: ls_admin
+    hostname: ls_admin
+    env_file:
+      - .env
+    build:
+      context: ./adminpanel
+      #dockerfile: ./adminpanel/Dockerfile
+    volumes:
+      - django_static:/app/static
+    command: >
+      bash -c " 
+       poetry run python manage.py migrate \ 
+       poetry run python -m gunicorn panel.wsgi:application"
+    expose:
+      - "8000"
+    depends_on:
+      - db
+
+  nginx:
+    container_name: ls_admin_nginx
+    hostname: ls_admin_nginx
+    image: nginx:1.21.6
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - django_static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - adminpanel
+
+volumes:
+  django_static:
+  postgres_data:

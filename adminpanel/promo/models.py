@@ -128,6 +128,7 @@ class BulkPromoCreate(IdTimeMixin):
     url_download = models.URLField(_('download csv link'), blank=True, null=True)
     title = models.CharField(_('title'), max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
+    quantity = models.PositiveIntegerField(_('quantity'), default=1)
     start_at = models.DateTimeField(_('valid from'), blank=True, null=True)
     expired = models.DateTimeField(_('valid to'), blank=True, null=True)
     products = models.ManyToManyField(Product, related_name='promos_bulk', verbose_name=_('promo assign to products'),
@@ -146,6 +147,6 @@ class BulkPromoCreate(IdTimeMixin):
 
 
 @receiver(post_save, sender=BulkPromoCreate, dispatch_uid="send_bulk_request")
-def update_stock(created, **kwargs):
+def send_request(instance, created, **kwargs):
     if created:
         requests.get('some')
