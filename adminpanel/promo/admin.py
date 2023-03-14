@@ -122,7 +122,7 @@ class BulkCreationAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'title', 'description', 'discount_type', 'discount_amount')
+                'title', 'description', 'quantity', 'discount_type', 'discount_amount')
         }),
         ('Ограничения', {
             'fields': ('start_at', 'expired', 'minimal_amount')
