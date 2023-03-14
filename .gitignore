@@ -133,7 +133,7 @@ dmypy.json
 income_data/
 media/
 .idea/
-.DS_Store/
+.DS_Store
 requirements_dev.txt
 
 # vscode

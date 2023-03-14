@@ -22,7 +22,6 @@ services:
       - .env
     build:
       context: ./adminpanel
-      #dockerfile: ./adminpanel/Dockerfile
     volumes:
       - django_static:/app/static
     command: >
