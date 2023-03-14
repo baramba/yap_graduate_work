@@ -1,0 +1,36 @@
+version: "2.1"
+services:
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+#    expose:
+#      - 6379
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1
+
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5005:5000'
+    environment:
+      REDIS_HOST: 'redis'
+      REDIS_PORT: 6379
+    depends_on:
+      - redis
+      - db
+
+  db:
+    container_name: db
+    hostname: db
+    image: postgres:15.1
+    environment:
+      - POSTGRES_DB=movies_database
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=123qwe
+    ports:
+      - '5432:5432'
+    volumes:
+    - ./cache_docker/db:/var/lib/postgresql/data
