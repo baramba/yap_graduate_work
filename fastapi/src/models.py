@@ -52,3 +52,14 @@ class ActivationResult(BaseOrjsonModel):
 class DeactivationResult(BaseOrjsonModel):
     result: bool
     error_message: str | None = None
+
+
+class ActivatePromoCommand(BaseOrjsonModel):
+    code: str
+    user_id: UUID
+    service_id: UUID
+
+
+class DeactivatePromoCommand(BaseOrjsonModel):
+    code: str
+    user_id: UUID

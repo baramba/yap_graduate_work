@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from exceptions import PromoNotFoundException, PromoIsNotStartedException, PromoIsExpiredException, \
     NoAvailableActivationsException, PromoIsNotActiveException, PromoIsNotConnectedWithService, \
     PromoIsNotConnectedWithUser
-from models import Promo, ActivationResult, DeactivationResult
+from models import Promo, ActivationResult, DeactivationResult, DeactivatePromoCommand, ActivatePromoCommand
 from promo_service import PromoService, get_promo_service
 from tools.text_constants import PROMO_IS_NOT_FOUND_MESSAGE
 
@@ -42,13 +42,13 @@ async def get_by_user_id(
 
 @router.post("/promo/activate", response_model=ActivationResult, description="Активировать промокод")
 async def activate(
-    code: str,
-    user_id: UUID,
-    service_id: UUID,
+    activate_promo_command: ActivatePromoCommand,
     promo_service: PromoService = Depends(get_promo_service),
 ) -> ActivationResult:
     try:
-        promo_info = await promo_service.activate(code, user_id, service_id)
+        promo_info = await promo_service.activate(
+            activate_promo_command.code, activate_promo_command.user_id, activate_promo_command.service_id
+        )
         return ActivationResult(
             result=True, discount_type=promo_info.discount_type, discount_amount=promo_info.discount_amount
         )
@@ -66,12 +66,11 @@ async def activate(
 
 @router.post("/promo/deactivate", response_model=DeactivationResult, description="Деактивировать промокод")
 async def deactivate(
-    code: str,
-    user_id: UUID,
+    deactivate_promo_command: DeactivatePromoCommand,
     promo_service: PromoService = Depends(get_promo_service),
 ) -> DeactivationResult:
     try:
-        await promo_service.deactivate(code, user_id)
+        await promo_service.deactivate(deactivate_promo_command.code, deactivate_promo_command.user_id)
         return DeactivationResult(result=True)
     except PromoIsNotConnectedWithUser as e:
         return DeactivationResult(result=False, error_message=e.message)
