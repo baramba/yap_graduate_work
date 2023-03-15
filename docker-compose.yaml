@@ -11,6 +11,8 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 127.0.0.1:61202:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
@@ -30,6 +32,8 @@ services:
        poetry run python -m gunicorn panel.wsgi:application"
     expose:
       - "8000"
+    ports:
+      - 127.0.0.1:61201:8000
     depends_on:
       - db
 
@@ -42,7 +46,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - django_static:/static
     ports:
-      - 80:80
+      - 127.0.0.1:61200:80
     depends_on:
       - adminpanel
 
