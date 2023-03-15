@@ -17,9 +17,9 @@ class BaseOrjsonModel(BaseModel):
 
 
 class DiscountType(str, Enum):
-    PRICE_FIX = "PRICE_FIX"
-    DISCOUNT_PERCENT = "DISCOUNT_PERCENT"
-    DISCOUNT_FIX = "DISCOUNT_FIX"
+    PRICE_FIX = "fixed_price"
+    DISCOUNT_PERCENT = "percentage_discount"
+    DISCOUNT_FIX = "fixed_discount"
 
 
 class Promo(BaseOrjsonModel):
