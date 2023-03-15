@@ -62,27 +62,12 @@ paths:
       summary: Activate
       description: Активировать промокод
       operationId: activate_api_v1_promo_activate_post
-      parameters:
-        - required: true
-          schema:
-            title: Code
-            type: string
-          name: code
-          in: query
-        - required: true
-          schema:
-            title: User Id
-            type: string
-            format: uuid
-          name: user_id
-          in: query
-        - required: true
-          schema:
-            title: Service Id
-            type: string
-            format: uuid
-          name: service_id
-          in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivatePromoCommand'
+        required: true
       responses:
         '200':
           description: Successful Response
@@ -101,20 +86,12 @@ paths:
       summary: Deactivate
       description: Деактивировать промокод
       operationId: deactivate_api_v1_promo_deactivate_post
-      parameters:
-        - required: true
-          schema:
-            title: Code
-            type: string
-          name: code
-          in: query
-        - required: true
-          schema:
-            title: User Id
-            type: string
-            format: uuid
-          name: user_id
-          in: query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeactivatePromoCommand'
+        required: true
       responses:
         '200':
           description: Successful Response
@@ -130,6 +107,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ActivatePromoCommand:
+      title: ActivatePromoCommand
+      required:
+        - code
+        - user_id
+        - service_id
+      type: object
+      properties:
+        code:
+          title: Code
+          type: string
+        user_id:
+          title: User Id
+          type: string
+          format: uuid
+        service_id:
+          title: Service Id
+          type: string
+          format: uuid
     ActivationResult:
       title: ActivationResult
       required:
@@ -147,6 +143,20 @@ components:
         error_message:
           title: Error Message
           type: string
+    DeactivatePromoCommand:
+      title: DeactivatePromoCommand
+      required:
+        - code
+        - user_id
+      type: object
+      properties:
+        code:
+          title: Code
+          type: string
+        user_id:
+          title: User Id
+          type: string
+          format: uuid
     DeactivationResult:
       title: DeactivationResult
       required:
