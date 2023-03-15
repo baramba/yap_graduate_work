@@ -140,3 +140,4 @@ requirements_dev.txt
 .vscode/settings.json
 .vscode/launch.json
 
+.python-version
