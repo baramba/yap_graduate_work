@@ -133,7 +133,7 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "WARNING",
+        "level": "INFO",
     },
 }
 
@@ -141,3 +141,5 @@ LOCALE_PATHS = ["promo/locale"]
 
 promo_code_length = os.environ.get("PROMO_CODE_LENGTH", 20)
 generator_url = os.environ.get("GENERATOR_URL")
+kafka_instance = os.environ.get("KAFKA_INSTANCE")
+kafka_topic = os.environ.get("KAFKA_TOPIC")
