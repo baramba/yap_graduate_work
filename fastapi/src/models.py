@@ -40,7 +40,7 @@ class Promo(BaseOrjsonModel):
 class Product(BaseOrjsonModel):
     id: UUID
     name: str
-    description: str
+    description: str | None
     price: float
 
 
