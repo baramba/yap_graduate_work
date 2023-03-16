@@ -59,7 +59,7 @@ class ProductsBulkInLine(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'description', 'price')
 
 
 @admin.register(PromoCode)
