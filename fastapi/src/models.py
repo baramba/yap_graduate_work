@@ -37,6 +37,13 @@ class Promo(BaseOrjsonModel):
     service_ids: list[UUID]
 
 
+class Product(BaseOrjsonModel):
+    id: UUID
+    name: str
+    description: str
+    price: float
+
+
 class PromoInfo(BaseOrjsonModel):
     discount_type: DiscountType
     discount_amount: float

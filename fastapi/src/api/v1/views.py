@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from exceptions import PromoNotFoundException, PromoIsNotStartedException, PromoIsExpiredException, \
     NoAvailableActivationsException, PromoIsNotActiveException, PromoIsNotConnectedWithService, \
     PromoIsNotConnectedWithUser
-from models import Promo, ActivationResult, DeactivationResult, DeactivatePromoCommand, ActivatePromoCommand
+from models import Promo, ActivationResult, DeactivationResult, DeactivatePromoCommand, ActivatePromoCommand, Product
 from promo_service import PromoService, get_promo_service
 from tools.text_constants import PROMO_IS_NOT_FOUND_MESSAGE
 
@@ -38,6 +38,11 @@ async def get_by_user_id(
     promo_service: PromoService = Depends(get_promo_service),
 ) -> list[Promo]:
     return await promo_service.get_by_user_id(user_id)
+
+
+@router.get("/promo/products", response_model=list[Product], description="Получить информацию о продуктах")
+async def get_products(promo_service: PromoService = Depends(get_promo_service)) -> list[Product]:
+    return await promo_service.get_products()
 
 
 @router.post("/promo/activate", response_model=ActivationResult, description="Активировать промокод")

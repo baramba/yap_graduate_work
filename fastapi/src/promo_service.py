@@ -10,7 +10,7 @@ from db import entities
 from db.connection import get_db
 from exceptions import PromoNotFoundException, NoAvailableActivationsException, PromoIsNotStartedException, \
     PromoIsExpiredException, PromoIsNotConnectedWithUser, PromoIsNotActiveException, PromoIsNotConnectedWithService
-from models import Promo, DiscountType, PromoInfo
+from models import Promo, DiscountType, PromoInfo, Product
 
 
 class PromoService:
@@ -126,6 +126,18 @@ class PromoService:
         )
         self._db.add(history_record)
         self._db.commit()
+
+    async def get_products(self) -> list[Product]:
+        products = self._db.query(entities.Product).all()
+        return [
+            Product(
+                id=product.id,
+                name=product.name,
+                description=product.description,
+                price=product.price,
+            )
+            for product in products
+        ]
 
 
 @lru_cache()
