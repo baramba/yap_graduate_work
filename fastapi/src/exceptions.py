@@ -3,41 +3,41 @@ from uuid import UUID
 
 class PromoNotFoundException(Exception):
     def __init__(self, code: str):
-        self.message = f"There is no promo with code = `{code}`."
+        self.message = f"Не существует промокода `{code}`."
         super().__init__(self.message)
 
 
 class PromoIsNotStartedException(Exception):
     def __init__(self, code: str):
-        self.message = f"Promo with code = `{code}` is not started."
+        self.message = f"Действие промокода `{code}` еще не началось."
         super().__init__(self.message)
 
 
 class PromoIsExpiredException(Exception):
     def __init__(self, code: str):
-        self.message = f"Promo with code = `{code}` is expired."
+        self.message = f"Действие промокода `{code}` уже завершилось."
         super().__init__(self.message)
 
 
 class NoAvailableActivationsException(Exception):
     def __init__(self, code: str):
-        self.message = f"Promo with code = `{code}` has no available activations."
+        self.message = f"У промокода `{code}` нет ни одной доступной активации."
         super().__init__(self.message)
 
 
 class PromoIsNotActiveException(Exception):
     def __init__(self, code: str):
-        self.message = f"Promo with code = `{code}` is not active."
+        self.message = f"Промокод `{code}` не активен."
         super().__init__(self.message)
 
 
 class PromoIsNotConnectedWithService(Exception):
     def __init__(self, code: str, service_id: UUID):
-        self.message = f"Promo with code = `{code}` is not connected with service `{service_id}.`"
+        self.message = f"Промокод `{code}` не связан с продуктом `{service_id}.`"
         super().__init__(self.message)
 
 
 class PromoIsNotConnectedWithUser(Exception):
     def __init__(self, code: str, user_id: UUID):
-        self.message = f"Promo with code = `{code}` is not connected with user `{user_id}.`"
+        self.message = f"Промокод `{code}` не связан с пользователем `{user_id}.`"
         super().__init__(self.message)
