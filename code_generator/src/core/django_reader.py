@@ -3,7 +3,7 @@ import uuid
 
 import psycopg2
 
-HOST = '127.0.0.1'
+from config.config import settings
 class DataDjango:
     """Класс дял загрузки данных в Postgres"""
     query_read_data = f"""SELECT * FROM  content.bulk_creation WHERE id='%s'"""
@@ -25,7 +25,7 @@ class DataDjango:
     def change_status(self, id: uuid, path: str, status: bool = True):
         """Получаем из БД юзера по имени"""
         try:
-            url_path = f"{HOST}/api/v1/code_generator/{path.strip('./')} "
+            url_path = f"{settings.HOST}/api/v1/code_generator/{path.strip('./')} "
             query = self.query_write_status % (status, url_path, id)
             curpg = self.pg_connect.cursor()
             curpg.execute(query)

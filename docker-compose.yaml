@@ -11,6 +11,8 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init_data.sql:/docker-entrypoint-initdb.d/init_data.sql
@@ -58,6 +60,39 @@ services:
     depends_on:
       - adminpanel
 
+  redis:
+    image: redis:6.2-alpine
+    command: redis-server --save 20 1
+
+  flask:
+    build:
+      context: ./code_generator
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    env_file:
+      - .env
+    command: "python3 main_flask.py"
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - download:/app/download
+
+  celery:
+    build:
+      context: ./code_generator
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    command: "celery -A main_flask.celery worker --loglevel=info"
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - download:/app/download
+
 volumes:
   django_static:
   postgres_data:
+  download:
