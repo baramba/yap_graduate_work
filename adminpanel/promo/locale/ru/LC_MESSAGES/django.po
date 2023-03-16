@@ -1,0 +1,181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-14 11:07+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: promo/apps.py:7
+msgid "promo code"
+msgstr "промокод"
+
+#: promo/models.py:20
+msgid "created"
+msgstr "Создан"
+
+#: promo/models.py:21
+msgid "modified"
+msgstr "Изменен"
+
+#: promo/models.py:28
+msgid "product name"
+msgstr "Наименование продукта"
+
+#: promo/models.py:29
+msgid "product description"
+msgstr "Описание краткое"
+
+#: promo/models.py:30
+msgid "product price"
+msgstr "Стоимость полная"
+
+#: promo/models.py:35 promo/models.py:43
+msgid "product"
+msgstr "продукт"
+
+#: promo/models.py:36
+msgid "products"
+msgstr "продукты"
+
+#: promo/models.py:57
+msgid "related product"
+msgstr "привязанный продукт"
+
+#: promo/models.py:58
+msgid "related products"
+msgstr "привязанные продукты"
+
+#: promo/models.py:63
+msgid "fixed price"
+msgstr "фиксированная цена"
+
+#: promo/models.py:64
+msgid "percentage discount"
+msgstr "скидка в процентах"
+
+#: promo/models.py:65
+msgid "fixed discount"
+msgstr "фиксированная скидка"
+
+#: promo/models.py:67 promo/models.py:129
+msgid "title"
+msgstr "Название"
+
+#: promo/models.py:68 promo/models.py:130
+msgid "description"
+msgstr "Описание краткое"
+
+#: promo/models.py:70 promo/models.py:78
+msgid "leave blank for autofill"
+msgstr "Оставить пустым для автогенерации"
+
+#: promo/models.py:71 promo/models.py:132
+msgid "valid from"
+msgstr "Код действителен с"
+
+#: promo/models.py:72 promo/models.py:133
+msgid "valid to"
+msgstr "Код действителен до"
+
+#: promo/models.py:73
+msgid "promo assign to user (UUID id)"
+msgstr "Код привязан к пользователю (UUID id)"
+
+#: promo/models.py:74 promo/models.py:134
+msgid "promo assign to products"
+msgstr "Код привязан к продуктам"
+
+#: promo/models.py:76
+msgid "number of possible activations"
+msgstr "Количество возможных активаций"
+
+#: promo/models.py:77
+msgid "number of activations left"
+msgstr "Количество оставшихся активаций"
+
+#: promo/models.py:79 promo/models.py:136
+msgid "discount type"
+msgstr "Тип лояльности"
+
+#: promo/models.py:80 promo/models.py:137
+msgid "discount value"
+msgstr "Размер скидки/фикса"
+
+#: promo/models.py:81 promo/models.py:138
+msgid "minimum check amount to apply"
+msgstr "Минимальная сумма чека для применения скидки"
+
+#: promo/models.py:83
+msgid "promo code is active"
+msgstr "Промокод активен и может быть активирован"
+
+#: promo/models.py:84 promo/models.py:140
+msgid "creator"
+msgstr "Создатель"
+
+#: promo/models.py:89
+msgid "promo"
+msgstr "промокод"
+
+#: promo/models.py:90
+msgid "promos"
+msgstr "промокоды"
+
+#: promo/models.py:114
+msgid "activated promo"
+msgstr "Активированный промокод"
+
+#: promo/models.py:115
+msgid "code is activated by (UUID id)"
+msgstr "Код применен пользователем (UUID id)"
+
+#: promo/models.py:116
+msgid "amount of the applied discount"
+msgstr "Размер примененной скидки в валюте счета"
+
+#: promo/models.py:117
+msgid "info from billing service"
+msgstr "Информация от сервиса оплаты"
+
+#: promo/models.py:122
+msgid "activation log"
+msgstr "история активации кода"
+
+#: promo/models.py:123
+msgid "activations log"
+msgstr "история активаций кодов"
+
+#: promo/models.py:127
+msgid "creation completed"
+msgstr "Создание завершено"
+
+#: promo/models.py:128
+msgid "download csv link"
+msgstr "Ссылка для скачивания csv"
+
+#: promo/models.py:131
+msgid "quantity"
+msgstr "количество"
+
+#: promo/models.py:145
+msgid "promo code generator"
+msgstr "Генератор промокода"
+
+#: promo/models.py:146
+msgid "promo codes generator"
+msgstr "Генератор промокодов"
