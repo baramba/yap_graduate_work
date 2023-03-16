@@ -13,7 +13,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+      - ./init_data.sql:/docker-entrypoint-initdb.d/init_data.sql
+      #- ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
 
   adminpanel:
     container_name: ls_admin

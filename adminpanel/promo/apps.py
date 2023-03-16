@@ -6,3 +6,6 @@ class PromoConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'promo'
     verbose_name = _('promo code')
+
+    def ready(self):
+        from . import signals  # noqa
