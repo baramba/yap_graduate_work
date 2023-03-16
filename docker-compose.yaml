@@ -34,6 +34,17 @@ services:
     depends_on:
       - db
 
+  fastapi:
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
   nginx:
     container_name: ls_admin_nginx
     hostname: ls_admin_nginx
