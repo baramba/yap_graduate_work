@@ -94,7 +94,7 @@ class PromoCode(IdTimeMixin):
 
         if self.code != '':
             return super().save(*args, **kwargs)
-        length = getattr(settings, 'promo_code_length', 20)
+        length = getattr(settings, 'PROMO_CODE_LENGTH', 20)
         while True:
             self.code = ''.join(random.choices(string.ascii_letters + string.digits, k=length))
             try:

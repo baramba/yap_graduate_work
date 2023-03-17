@@ -3,6 +3,8 @@ from http import HTTPStatus
 
 import requests
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from kafka import KafkaProducer
 
 from .models import BulkPromoCreate, PromoCode
@@ -11,10 +13,11 @@ logger = logging.getLogger(__name__)
 producer: None | KafkaProducer = None
 
 
+@receiver(post_save)
 def send_request(instance: BulkPromoCreate, created, **kwargs):
     if not created:
         return
-    response = requests.get(settings.generator_url, params={'id': instance.id})
+    response = requests.get(settings.GENERATOR_URL, params={'id': instance.id})
     if response.status_code != HTTPStatus.OK:
         logger.error('Generator returned not 200 status', response.json())
 
