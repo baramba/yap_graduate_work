@@ -4,6 +4,8 @@ import React from 'react'
 import { Stack, TextField, Button, Divider } from "@mui/material";
 import FetchApi from "../../lib/api/fetchAPi";
 
+import TechInfo from "../../components/techInfo";
+
 
 export default function Promos() {
     const [promos, setPromos] = React.useState([]);
@@ -38,7 +40,7 @@ export default function Promos() {
                 </Button>
             </Stack>
             {promos?.length > 0 && <PromosList data={promos} response={response} />}
-
+            <TechInfo data={response} />
         </>
     );
 }

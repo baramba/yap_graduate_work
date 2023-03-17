@@ -10,7 +10,6 @@ import {
     Paper,
 } from "@mui/material";
 
-import TechInfo from "./techInfo";
 
 export default function PromosList({ data, response}) {
     const columns = Object.keys(data[0]) || []
@@ -43,7 +42,6 @@ export default function PromosList({ data, response}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TechInfo data={response} />
         </>
     );
 }
