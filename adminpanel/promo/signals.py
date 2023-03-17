@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 producer: None | KafkaProducer = None
 
 
-@receiver(post_save)
-def send_request(instance: BulkPromoCreate, created, **kwargs):
+@receiver(post_save, sender=BulkPromoCreate)
+def send_request(sender, instance: BulkPromoCreate, created, **kwargs):
     if not created:
         return
     response = requests.get(settings.GENERATOR_URL, params={'id': instance.id})
@@ -22,7 +22,7 @@ def send_request(instance: BulkPromoCreate, created, **kwargs):
         logger.error('Generator returned not 200 status', response.json())
 
 
-def send_message(instance: PromoCode, created, **kwargs):
+def send_message(sender, instance: PromoCode, created, **kwargs):
     if not created and not instance.user_id:
         return
     value = {
