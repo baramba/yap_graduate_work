@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  ui-prod:
+    container_name: wb-ad-analyse-ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '1337:80'

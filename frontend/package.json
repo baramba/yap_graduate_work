@@ -1,0 +1,28 @@
+{
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.6",
+        "@emotion/styled": "^11.10.6",
+        "@fontsource/roboto": "^4.5.8",
+        "@mui/icons-material": "^5.11.11",
+        "@mui/material": "^5.11.12",
+        "@stoplight/prism-cli": "^4.10.6",
+        "date-fns": "^2.29.3",
+        "next": "^13.2.3",
+        "openapi-backend": "^5.9.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/node": "18.15.1",
+        "msw": "^1.1.0",
+        "typescript": "4.9.5"
+    },
+    "msw": {
+        "workerDirectory": "public"
+    }
+}
