@@ -15,6 +15,7 @@ loger = logging.getLogger(__name__)
 def send_request(instance, created, **kwargs):
     if not created:
         return
-    response = requests.get(getattr(settings, 'generator_url'), params={'id': instance.id})
+    # response = requests.get(getattr(settings, 'generator_url'), params={'id': instance.id})
+    response = requests.get('http://flask:5000/api/v1/code_generator/id', params={'id': instance.id})
     if response.status_code != HTTPStatus.OK:
         loger.error('Generator returned not 200 status', response.json())
