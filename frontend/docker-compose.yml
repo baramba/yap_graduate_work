@@ -1,10 +1,20 @@
 version: '3.7'
-
 services:
-  ui-prod:
-    container_name: wb-ad-analyse-ui
+  front:
+    container_name: yap_graduate_front
+    hostname: yap_graduate_front
     build:
       context: .
       dockerfile: Dockerfile
+    expose:
+      - "80"
+  nginx:
+    container_name: yap_graduate_nginx
+    image: nginx:1.21.6
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
     ports:
-      - '1337:80'
+      - 80:80
+    depends_on:
+      - front
