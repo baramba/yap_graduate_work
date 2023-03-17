@@ -38,4 +38,4 @@ COPY --chown=${USER}:${GROUP} ./gunicorn.conf.py ./
 
 RUN cd ${WORKDIR} \
     && poetry run python manage.py collectstatic --noinput \
-    # && poetry run python manage.py compilemessages -l en -l ru \
+    && poetry run python manage.py compilemessages -l en -l ru \
