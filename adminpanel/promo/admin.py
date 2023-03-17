@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import admin
 
 from .models import BulkPromoCreate, History, Product, PromoCode
@@ -114,6 +113,7 @@ class HistoryAdmin(admin.ModelAdmin):
         return obj.promocode.code
 
 
+@admin.register(BulkPromoCreate)
 class BulkCreationAdmin(admin.ModelAdmin):
     list_display = ('created', 'creation_done', 'url_download', 'created_by')
     list_filter = ('created', 'created_by', 'creation_done')
@@ -133,7 +133,3 @@ class BulkCreationAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
-
-
-if getattr(settings, 'generator_url', None):
-    admin.register(BulkPromoCreate, BulkCreationAdmin)

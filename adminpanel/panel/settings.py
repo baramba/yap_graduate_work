@@ -133,13 +133,13 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
 }
 
 LOCALE_PATHS = ['promo/locale']
 
-generator_url = 'http://flask:5000/api/v1/code_generator/id'
-promo_code_length = os.environ.get('PROMO_CODE_LENGTH')
-kafka_instance = os.environ.get('KAFKA_INSTANCE')
-kafka_topic = os.environ.get('KAFKA_TOPIC')
+GENERATOR_URL = 'http://flask:5000/api/v1/code_generator/id'
+PROMO_CODE_LENGTH = os.environ.get('PROMO_CODE_LENGTH')
+KAFKA_INSTANCE = os.environ.get('KAFKA_INSTANCE')
+KAFKA_TOPIC = os.environ.get('KAFKA_TOPIC')
