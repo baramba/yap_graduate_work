@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>6b7c372d-69ab-45d6-8186-08803c919587.SCHEMA:graduate.content</OriginalElement>
+  <nodes>
+    <node x="-599.9323322702573" y="115.00000000000006">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.promo</node>
+    <node x="-398.22253614457816" y="679.8561746987951">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.history</node>
+    <node x="291.0391566265059" y="703.8561746987951">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product_promo</node>
+    <node x="271.58333333333326" y="163.0">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product</node>
+    <node x="-99.35388253012042" y="163.0">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.bulk_creation</node>
+    <node x="-178.31155504370432" y="-249.1942771084337">6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.public.auth_user</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.history" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.promo" relationship="REFERENCES">
+      <point x="0.0" y="-101.5" />
+      <point x="-261.22253614457816" y="626.6668144578313" />
+      <point x="-531.4323322702573" y="626.6668144578313" />
+      <point x="-68.5" y="209.5" />
+    </edge>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product_promo" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.promo" relationship="REFERENCES">
+      <point x="-91.33333333333331" y="-89.5" />
+      <point x="336.7058232931726" y="583.0" />
+      <point x="-394.43233227025735" y="583.0" />
+      <point x="68.5" y="209.5" />
+    </edge>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.bulk_creation" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.public.auth_user" relationship="REFERENCES">
+      <point x="0.0" y="-185.5" />
+      <point x="37.646117469879584" y="114.0" />
+      <point x="-30.311555043704317" y="114.0" />
+      <point x="0.0" y="149.5" />
+    </edge>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.promo" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.public.auth_user" relationship="REFERENCES">
+      <point x="0.0" y="-209.5" />
+      <point x="-30.311555043704317" y="115.00000000000006" />
+      <point x="0.0" y="149.5" />
+    </edge>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product_promo" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product" relationship="REFERENCES">
+      <point x="91.33333333333333" y="-89.5" />
+      <point x="519.3724899598393" y="342.0" />
+      <point x="0.0" y="89.5" />
+    </edge>
+    <edge source="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.product_promo" target="6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.content.bulk_creation" relationship="REFERENCES">
+      <point x="0.0" y="-89.5" />
+      <point x="428.0391566265059" y="626.6668144578313" />
+      <point x="37.646117469879584" y="626.6668144578313" />
+      <point x="0.0" y="185.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.9343479827089342" showDependencies="false" x="20.505844578313372" y="685.9608674698794" />
+  <SelectedNodes>
+    <node>6b7c372d-69ab-45d6-8186-08803c919587.TABLE:graduate.public.auth_user</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Comments</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
