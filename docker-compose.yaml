@@ -70,7 +70,8 @@ services:
       - '5000'
     env_file:
       - .env
-    command: "python3 main_flask.py"
+    #command: "python3 main_flask.py"
+    command: "gunicorn main_flask:app -b 0.0.0.0:5000 --reload"
     depends_on:
       - redis
       - db
