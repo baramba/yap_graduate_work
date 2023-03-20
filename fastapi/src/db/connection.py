@@ -6,17 +6,17 @@ from datetime import date
 from datetime import datetime
 from decimal import Decimal
 from typing import Any
+from typing import Dict
 from typing import Optional
 from uuid import UUID
 
 import sqlalchemy.engine
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.orm import sessionmaker
 
 __all__ = ["ConnectionDriver", "ConnectionPool", "create_connection_driver", "get_db"]
-
-from sqlalchemy.orm import sessionmaker, Session
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -72,15 +72,12 @@ class ConnectionPool:
             raise DatabaseError()
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://app:123qwe@postgres:5432/promo_db")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://app:123qwe@postgres:5432/promo_db")
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+engine = create_async_engine(DATABASE_URL, echo=True)
+async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
-def get_db() -> Session:
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db() -> AsyncSession:
+    async with async_session() as session:
+        yield session
