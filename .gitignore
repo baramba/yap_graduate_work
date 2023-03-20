@@ -14,7 +14,11 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+
+adminpanel/*/lib/
+code_generator/*/lib/
+fastapi/*/lib/
+
 lib64/
 parts/
 sdist/
