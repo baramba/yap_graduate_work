@@ -18,15 +18,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'default'
-        },
-        'logstash': {
-            'level': 'INFO',
-            'class': 'logstash.UDPLogstashHandler',
-            'host': 'logstash',
-            'port': 5044,
-            'version': 1,
-            'tags': [TAG],  # список тег.
-        },
+        }
     },
 
     'loggers': {

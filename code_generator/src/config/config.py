@@ -13,7 +13,7 @@ class PostgresDsn(BaseSettings):
     user: str = Field('app', env='POSTGRES_USER')
     password: str = Field('123qwe', env='POSTGRES_PASSWORD')
     host: str = Field('127.0.0.1', env='POSTGRES_SERVER')
-    port: str = Field(5432, env='POSTGRES_PORT')
+    port: int = Field(5432, env='POSTGRES_PORT')
 
 
 class Settings(BaseSettings):
@@ -21,6 +21,6 @@ class Settings(BaseSettings):
     CREATED_BY: int = Field(1, env='CREATED_BY')
     HOST: str = Field('127.0.0.1', env='HOST_FLASK')
     REDIS_HOST:  str = Field('127.0.0.1', env='REDIS_HOST')
-    REDIS_PORT:  str = Field('6379', env='REDIS_PORT')
+    REDIS_PORT:  int = Field(6379, env='REDIS_PORT')
 
 settings = Settings()
