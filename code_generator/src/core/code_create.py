@@ -57,7 +57,7 @@ class PromocodesCreate:
 
     def write_code_usluga_to_db(self, products_id: list) -> None:
         """Запись в базу для связывания промокода с id услуги"""
-        if products_id == None:
+        if products_id is None:
             return
         try:
             args = ''
