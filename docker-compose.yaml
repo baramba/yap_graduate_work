@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init_data.sql:/docker-entrypoint-initdb.d/init_data.sql
-      #- ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
+      - ./create_schema.sql:/docker-entrypoint-initdb.d/create_schema.sql
 
   adminpanel:
     container_name: ls_admin
@@ -70,7 +70,6 @@ services:
       - '5000'
     env_file:
       - .env
-    #command: "python3 main_flask.py"
     command: "gunicorn main_flask:app -b 0.0.0.0:5000 --reload"
     depends_on:
       - redis
