@@ -15,8 +15,8 @@ https://github.com/baramba/yap_graduate_work
 ## Запуск
 1. Переименовать .env_example в .env
 2. Запустить docker compose up -d
-3. Демонстрационная страницы будет доступна по адресу http://loclahost
-4. Административная панель будет доступна по адресу http://loclahost/admin
+3. Демонстрационная страницы будет доступна по адресу http://localhost
+4. Административная панель будет доступна по адресу http://localhost/admin
 
 
 ## Описание проекта
