@@ -14,9 +14,16 @@ https://github.com/baramba/yap_graduate_work
   
 ## Запуск
 1. Переименовать .env_example в .env
-2. Запустить docker compose up -d
-3. Демонстрационная страницы будет доступна по адресу http://localhost
-4. Административная панель будет доступна по адресу http://localhost/admin
+2. Запустить контейнеры
+```
+docker compose up -d
+```
+3. Выполнить миграции в контейнере, где IMAGE=yap_graduate-adminpanel
+```
+docker exec -it container_id python manage.py migrate
+```
+4. Демонстрационная страницы будет доступна по адресу http://localhost
+5. Административная панель будет доступна по адресу http://localhost/admin
 
 
 ## Описание проекта
