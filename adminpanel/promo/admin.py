@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import BulkPromoCreate, History, Product, PromoCode
 
@@ -115,7 +116,7 @@ class HistoryAdmin(admin.ModelAdmin):
 
 @admin.register(BulkPromoCreate)
 class BulkCreationAdmin(admin.ModelAdmin):
-    list_display = ('created', 'creation_done', 'url_download', 'created_by')
+    list_display = ('created', 'creation_done', 'url_download_show', 'created_by')
     list_filter = ('created', 'created_by', 'creation_done')
     save_as = True
     save_as_continue = False
@@ -129,6 +130,10 @@ class BulkCreationAdmin(admin.ModelAdmin):
         }),
     )
     inlines = (ProductsBulkInLine,)
+
+    @admin.display(description=BulkPromoCreate.url_download.field.verbose_name)
+    def url_download_show(self, obj):
+        return format_html("<a href='{url}'>{url}</a>", url=obj.url_download) if obj.url_download else ''
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
