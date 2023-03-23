@@ -3,6 +3,7 @@ from django.utils.html import format_html
 
 from .models import BulkPromoCreate, History, Product, PromoCode
 
+
 # action section
 
 
