@@ -1,7 +1,7 @@
 export default function applyDiscount(price, type, amount) {
     let priceInt = parseInt(price, 10)
     const DiscountType = {
-        PRICE_FIX: "price_fix",
+        PRICE_FIX: "fixed_price",
         DISCOUNT_PERCENT: "percentage_discount",
         DISCOUNT_FIX: "fixed_discount",
     }

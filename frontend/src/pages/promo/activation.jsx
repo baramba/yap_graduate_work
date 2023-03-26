@@ -6,14 +6,16 @@ import FetchApi from "../../lib/api/fetchAPi";
 import TechInfo from "../../components/techInfo";
 import applyDiscount from "../../lib/api/utils";
 
+
 const defaultProduct = {
     "img": "/images/mandalorec.webp",
     "price": "1000.00",
     "name": "Мандалорец",
     "desc": "Одинокий мандалорец-наёмник живёт на краю обитаемой галактики, куда не дотягивается закон Новой Республики. Представитель некогда могучей расы благородных воинов теперь вынужден влачить жалкое существование среди отбросов общества.",
 };
+const defaultPrice = defaultProduct.price;
 
-const defaultPromoCode = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+const defaultPromoCode = "YAP20";
 const defaultUserId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 const defaultServiceId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
@@ -46,17 +48,18 @@ export default function Activation() {
             setFail(true);
             return;
         }
-
         const newPrice = applyDiscount(product.price, result.data.discount_type, result.data.discount_amount);
         product.price = newPrice;
         setProduct(product);
         setActivate(true);
+        setFail(false)
     };
 
     const deactivatePromo = async () => {
         const result = await FetchApi.deactivatePromo(userId, promoCode);
-        setActivate(false)
-        product.price = defaultProduct.price
+        setActivate(false);
+        setData(result);
+        product.price = defaultPrice;
         setProduct(product);
     };
 
@@ -115,7 +118,8 @@ export default function Activation() {
                 {isActivate &&
                     <>
                         <Grid item xs={10}>
-                            <Typography variant="body1">Промокод активирован ({promoCode}), тип: {data.data.discount_type}, значение: {data.data.discount_amount}</Typography>
+                            {/* <Typography variant="body1">Промокод активирован ({promoCode}), тип: {data.data.discount_type}, значение: {data.data.discount_amount}</Typography> */}
+                            <Alert severity="success">Промокод активирован ({promoCode}), тип: {data.data.discount_type}, значение: {data.data.discount_amount}</Alert>
                         </Grid>
                         <Grid item container justifyContent="flex-end" xs>
                             <Button onClick={deactivatePromo} size="medium" variant="contained" color="primary">
