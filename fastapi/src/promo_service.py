@@ -4,7 +4,9 @@ from uuid import UUID, uuid4
 
 import pytz
 from fastapi import Depends
-from sqlalchemy.orm import Session
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from db import entities
 from db.connection import get_db
@@ -14,11 +16,14 @@ from models import Promo, DiscountType, PromoInfo, Product
 
 
 class PromoService:
-    def __init__(self, postgres_db: Session):
-        self._db: Session = postgres_db
+    def __init__(self, postgres_db: AsyncSession):
+        self._db: AsyncSession = postgres_db
 
     async def get_by_code(self, code: str) -> Promo | None:
-        promo = self._db.query(entities.Promo).filter(entities.Promo.code == code).first()
+        result = await self._db.execute(
+            select(entities.Promo).options(selectinload(entities.Promo.products)).where(entities.Promo.code == code)
+        )
+        promo = result.scalars().first()
         if promo is None:
             return None
 
@@ -38,7 +43,13 @@ class PromoService:
         )
 
     async def get_by_user_id(self, user_id: UUID) -> list[Promo]:
-        promos = self._db.query(entities.Promo).filter(entities.Promo.user_id == user_id).all()
+        result = await self._db.execute(
+            select(entities.Promo)
+            .options(selectinload(entities.Promo.products))
+            .where(entities.Promo.user_id == user_id)
+        )
+        promos = result.scalars().all()
+
         return [
             Promo(
                 id=promo.id,
@@ -58,17 +69,20 @@ class PromoService:
         ]
 
     async def activate(self, code: str, user_id: UUID, service_id: UUID) -> PromoInfo:
-        promo = self._db.query(entities.Promo).filter(entities.Promo.code == code).first()
+        result = await self._db.execute(
+            select(entities.Promo).options(selectinload(entities.Promo.products)).where(entities.Promo.code == code)
+        )
+        promo = result.scalars().first()
         if promo is None:
             raise PromoNotFoundException(code)
-        self._check_promo(promo, user_id, service_id)
-        self._activate_promo(promo, user_id)
+        await self._check_promo(promo, user_id, service_id)
+        await self._activate_promo(promo, user_id)
         return PromoInfo(
             discount_type=DiscountType(promo.discount_type),
             discount_amount=promo.discount_amount,
         )
 
-    def _check_promo(self, promo: entities.Promo, user_id: UUID, service_id: UUID) -> None:
+    async def _check_promo(self, promo: entities.Promo, user_id: UUID, service_id: UUID) -> None:
         if not promo.is_active:
             raise PromoIsNotActiveException(promo.code)
 
@@ -88,11 +102,13 @@ class PromoService:
         if promo.expired <= datetime.now(pytz.UTC):
             raise PromoIsExpiredException(promo.code)
 
-    def _activate_promo(self, promo: entities.Promo, user_id: UUID) -> None:
+    async def _activate_promo(self, promo: entities.Promo, user_id: UUID) -> None:
         new_activates_left = promo.activates_left - 1
-        self._db.query(entities.Promo).filter(entities.Promo.code == promo.code).update(
-            {"activates_left": new_activates_left}
+        await self._db.execute(
+            update(entities.Promo).where(entities.Promo.code == promo.code).values(activates_left=new_activates_left)
         )
+        await self._db.commit()
+
         history_record = entities.History(
             id=uuid4(),
             applied_user_id=user_id,
@@ -101,22 +117,29 @@ class PromoService:
             promocode_id=promo.id,
         )
         self._db.add(history_record)
-        self._db.commit()
+        await self._db.commit()
 
     async def deactivate(self, code: str, user_id: UUID) -> None:
-        promo = self._db.query(entities.Promo).filter(entities.Promo.code == code).first()
+        result = await self._db.execute(
+            select(entities.Promo).options(selectinload(entities.Promo.products)).where(entities.Promo.code == code)
+        )
+        promo = result.scalars().first()
         if promo is None:
             raise PromoNotFoundException(code)
         if (promo.user_id is not None) and (promo.user_id != user_id):
             raise PromoIsNotConnectedWithUser(promo.code, user_id)
-        self._deactivate_promo(promo, user_id)
+        await self._deactivate_promo(promo, user_id)
 
-    def _deactivate_promo(self, promo: entities.Promo, user_id: UUID) -> None:
+    async def _deactivate_promo(self, promo: entities.Promo, user_id: UUID) -> None:
         if promo.activates_left < promo.activates_possible:
             new_activates_left = promo.activates_left + 1
-            self._db.query(entities.Promo).filter(entities.Promo.code == promo.code).update(
-                {"activates_left": new_activates_left}
+            await self._db.execute(
+                update(entities.Promo)
+                .where(entities.Promo.code == promo.code)
+                .values({"activates_left": new_activates_left})
             )
+            await self._db.commit()
+
         history_record = entities.History(
             id=uuid4(),
             applied_user_id=user_id,
@@ -128,7 +151,8 @@ class PromoService:
         self._db.commit()
 
     async def get_products(self) -> list[Product]:
-        products = self._db.query(entities.Product).all()
+        result = await self._db.execute(select(entities.Product))
+        products = result.scalars().all()
         return [
             Product(
                 id=product.id,
@@ -141,5 +165,5 @@ class PromoService:
 
 
 @lru_cache()
-def get_promo_service(postgres_db: Session = Depends(get_db)) -> PromoService:
+def get_promo_service(postgres_db: AsyncSession = Depends(get_db)) -> PromoService:
     return PromoService(postgres_db)

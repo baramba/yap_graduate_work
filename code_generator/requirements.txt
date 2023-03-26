@@ -4,3 +4,4 @@ flask == 2.2.3
 celery == 5.2.7
 python-logstash == 0.4.8
 redis == 4.5.1
+gunicorn == 20.1

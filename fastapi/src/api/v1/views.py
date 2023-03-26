@@ -77,5 +77,5 @@ async def deactivate(
     try:
         await promo_service.deactivate(deactivate_promo_command.code, deactivate_promo_command.user_id)
         return DeactivationResult(result=True)
-    except PromoIsNotConnectedWithUser as e:
+    except (PromoIsNotConnectedWithUser, PromoNotFoundException) as e:
         return DeactivationResult(result=False, error_message=e.message)

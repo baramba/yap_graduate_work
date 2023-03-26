@@ -1,5 +1,7 @@
 # Дипломный проект 20 когорты 
 
+https://github.com/baramba/yap_graduate_work
+
 ## Тема
 ### Сервис лояльности онлайн кинотеатра
 
@@ -12,9 +14,16 @@
   
 ## Запуск
 1. Переименовать .env_example в .env
-2. запустить docker compose up -d
-3. демонстрационная страницы будет доступна по адресу http://loclahost
-4. Административная панель будет доступна по адресу http://loclahost/admin
+2. Запустить контейнеры
+```
+docker compose up -d
+```
+3. Выполнить миграции в контейнере, где IMAGE=yap_graduate-adminpanel
+```
+docker exec -it container_id python manage.py migrate
+```
+4. Демонстрационная страницы будет доступна по адресу http://localhost
+5. Административная панель будет доступна по адресу http://localhost/admin
 
 
 ## Описание проекта
